@@ -1,0 +1,21 @@
+{
+    "string": "Hello, World!",
+    "list": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "dict": {
+        "key": "value",
+        "another_key": 123
+    },
+    "user_id_123": {
+        "name": "Alice"
+    },
+    "user_id_456": {
+        "name": "Bob"
+    },
+    "config_value": true
+}
