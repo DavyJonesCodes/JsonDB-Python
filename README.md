@@ -47,6 +47,12 @@ del db['user2']
 print(db.keys('user.*'))  # Output: ['user1']
 ```
 
+## Project Structure
+
+- `jsonDb.py`: The core database module, implementing CRUD operations and data storage in JSON format.
+- `main.py`: An example script demonstrating how to use the JsonDB for basic data management tasks.
+- `data.json`: A sample JSON file used by `main.py` to illustrate data storage and retrieval.
+
 ## Contributing
 
 Contributions to the JsonDB Project are welcome! Whether it's reporting a bug, discussing potential improvements, or contributing code, we value your input.
