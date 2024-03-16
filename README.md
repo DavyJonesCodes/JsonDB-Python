@@ -18,18 +18,14 @@ The JsonDB Project provides a lightweight, file-based database system, designed 
 
 ### Installation
 
-Clone this repository to your local machine:
+To use the JsonDB in your project, you simply need to include the `jsonDB.py` file in your project directory. There's no need to install any packages or run any setup scripts. Just make sure that `jsonDB.py` is in the same folder as the Python script where you intend to use the database.
 
-```bash
-git clone https://github.com/yourusername/json-db-project.git
-cd json-db-project
-```
+### Usage
 
-## Usage
+Here's how to get started with JsonDB in your project:
 
-Here's a quick example to get you started:
-```py
-from jsonDb import JsonDB
+```python
+from jsonDB import JsonDB
 
 # Initialize the database
 db = JsonDB('data.json')
