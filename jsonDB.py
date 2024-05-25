@@ -115,6 +115,14 @@ class JsonDB:
         with open(self.filename, 'w') as file:
             json.dump(self._data, file, indent=4)
 
+    def reload_data(self):
+        """
+        Reloads the data from the JSON file specified by self.filename.
+
+        This method updates the in-memory data with the contents of the JSON file.
+        """
+        self._data = self.load_data()
+
     def __setitem__(self, key: str, value):
         """
         Sets the value for a given key in the database and immediately saves the updated data to the JSON file.
@@ -132,6 +140,7 @@ class JsonDB:
         :param key: The key whose value is to be retrieved.
         :return: The value associated with the given key.
         """
+        self.reload_data()
         value = self._data.get(key)
         if isinstance(value, dict):
             return NestedDict(self, [key])
@@ -153,6 +162,7 @@ class JsonDB:
         :param key: The key whose value is to be retrieved.
         :return: The value associated with the given key.
         """
+        self.reload_data()
         return self._data.get(key)
 
     def keys(self, query: str = "") -> list:
