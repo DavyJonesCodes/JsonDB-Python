@@ -60,6 +60,17 @@ class NestedDict:
         del resolved[key]
         self.parent.save_data()
 
+    def get(self, key, default=None):
+        """
+        Retrieves the value for a given key from the nested dictionary. If the key does not exist, returns the default value.
+
+        :param key: The key to retrieve the value for.
+        :param default: The default value to return if the key does not exist.
+        :return: The value associated with the key, or the default value if the key does not exist.
+        """
+        resolved = self._resolve_path()
+        return resolved.get(key, default)
+
     def __repr__(self):
         """
         Returns a string representation of the nested dictionary.
