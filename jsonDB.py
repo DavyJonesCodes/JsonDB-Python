@@ -1,83 +1,6 @@
 import re
 import json
-
-
-class NestedDict:
-    """A helper class to manage nested dictionaries within the JsonDB class."""
-
-    def __init__(self, parent, path):
-        """
-        Initializes a NestedDict instance.
-
-        :param parent: The parent JsonDB instance.
-        :param path: A list representing the path to the nested dictionary.
-        """
-        self.parent = parent
-        self.path = path
-
-    def _resolve_path(self):
-        """
-        Resolves the path to the nested dictionary within the parent dictionary.
-
-        :return: The dictionary at the end of the path.
-        """
-        d = self.parent._data
-        for key in self.path:
-            d = d.setdefault(key, {})
-        return d
-
-    def __getitem__(self, key):
-        """
-        Retrieves the value for a given key from the nested dictionary.
-
-        :param key: The key to retrieve the value for.
-        :return: The value associated with the key. If the value is a dictionary, returns a NestedDict instance.
-        """
-        resolved = self._resolve_path()
-        value = resolved[key]
-        if isinstance(value, dict):
-            return NestedDict(self.parent, self.path + [key])
-        return value
-
-    def __setitem__(self, key, value):
-        """
-        Sets the value for a given key in the nested dictionary and saves the data to the JSON file.
-
-        :param key: The key to set the value for.
-        :param value: The value to set.
-        """
-        resolved = self._resolve_path()
-        resolved[key] = value
-        self.parent.save_data()
-
-    def __delitem__(self, key):
-        """
-        Deletes the key-value pair for a given key from the nested dictionary and saves the data to the JSON file.
-
-        :param key: The key to delete the value for.
-        """
-        resolved = self._resolve_path()
-        del resolved[key]
-        self.parent.save_data()
-
-    def get(self, key, default=None):
-        """
-        Retrieves the value for a given key from the nested dictionary. If the key does not exist, returns the default value.
-
-        :param key: The key to retrieve the value for.
-        :param default: The default value to return if the key does not exist.
-        :return: The value associated with the key, or the default value if the key does not exist.
-        """
-        resolved = self._resolve_path()
-        return resolved.get(key, default)
-
-    def __repr__(self):
-        """
-        Returns a string representation of the nested dictionary.
-
-        :return: A string representation of the nested dictionary.
-        """
-        return repr(self._resolve_path())
+from collections.abc import MutableMapping
 
 
 class JsonDB:
@@ -184,3 +107,99 @@ class JsonDB:
         matching_keys = [key for key in list(self._data.keys()) if (pattern.search(key) if pattern else query in key)]
 
         return matching_keys
+
+
+class NestedDict(MutableMapping):
+    """A helper class to manage nested dictionaries within the JsonDB class."""
+
+    def __init__(self, parent, path):
+        """
+        Initializes a NestedDict instance.
+
+        :param parent: The parent JsonDB instance.
+        :param path: A list representing the path to the nested dictionary.
+        """
+        self.parent = parent
+        self.path = path
+
+    def _resolve_path(self):
+        """
+        Resolves the path to the nested dictionary within the parent dictionary.
+
+        :return: The dictionary at the end of the path.
+        """
+        d = self.parent._data
+        for key in self.path:
+            d = d.setdefault(key, {})
+        return d
+
+    def __getitem__(self, key):
+        """
+        Retrieves the value for a given key from the nested dictionary.
+
+        :param key: The key to retrieve the value for.
+        :return: The value associated with the key.
+        """
+        resolved = self._resolve_path()
+        value = resolved[key]
+        if isinstance(value, dict):
+            return NestedDict(self.parent, self.path + [key])
+        return value
+
+    def __setitem__(self, key, value):
+        """
+        Sets the value for a given key in the nested dictionary and saves the data to the JSON file.
+
+        :param key: The key to set the value for.
+        :param value: The value to set.
+        """
+        resolved = self._resolve_path()
+        resolved[key] = value
+        self.parent.save_data()
+
+    def __delitem__(self, key):
+        """
+        Deletes the key-value pair for a given key from the nested dictionary and saves the data to the JSON file.
+
+        :param key: The key to delete the value for.
+        """
+        resolved = self._resolve_path()
+        del resolved[key]
+        self.parent.save_data()
+
+    def __iter__(self):
+        """
+        Returns an iterator over the keys of the nested dictionary.
+
+        :return: An iterator over the keys of the nested dictionary.
+        """
+        resolved = self._resolve_path()
+        return iter(resolved)
+
+    def __len__(self):
+        """
+        Returns the number of items in the nested dictionary.
+
+        :return: The number of items in the nested dictionary.
+        """
+        resolved = self._resolve_path()
+        return len(resolved)
+
+    def get(self, key, default=None):
+        """
+        Retrieves the value for a given key from the nested dictionary. If the key does not exist, returns the default value.
+
+        :param key: The key to retrieve the value for.
+        :param default: The default value to return if the key does not exist.
+        :return: The value associated with the key, or the default value if the key does not exist.
+        """
+        resolved = self._resolve_path()
+        return resolved.get(key, default)
+
+    def __repr__(self):
+        """
+        Returns a string representation of the nested dictionary.
+
+        :return: A string representation of the nested dictionary.
+        """
+        return repr(self._resolve_path())
