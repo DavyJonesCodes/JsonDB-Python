@@ -1,5 +1,6 @@
 import re
 import json
+import os
 from collections.abc import MutableMapping
 
 
@@ -12,6 +13,10 @@ class JsonDB:
 
         :param filename: The path to the JSON file used for data storage. Defaults to 'data.json'.
         """
+        if not os.path.isabs(filename):
+            # If the filename is not an absolute path, set it to the directory of the script file
+            script_dir = os.path.dirname(os.path.realpath(__file__))
+            filename = os.path.join(script_dir, filename)
         self.filename = filename
         self._data = self.load_data()
 
