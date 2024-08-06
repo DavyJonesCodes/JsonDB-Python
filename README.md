@@ -7,6 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/python-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/json-%23000000.svg?&style=for-the-badge&logo=json&logoColor=white"/>
+  <img src="https://img.shields.io/github/license/DavyJonesCodes/JsonDB-Python?style=for-the-badge"/>
 </p>
 
 The JsonDB Project provides a lightweight, file-based database system, designed to make data storage and retrieval simple and intuitive. Built in Python, it leverages the versatility of JSON for data manipulation, making it an ideal solution for small projects, prototypes, or for educational purposes where a full-scale database system isn't required.
